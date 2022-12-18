@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "401431423872",
+    "project_id": "healthyway-883b1",
+    "storage_bucket": "healthyway-883b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401431423872:android:16110cd9abc3c55c8e2f65",
+        "android_client_info": {
+          "package_name": "com.example.healthyway"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "401431423872-r0jj32i38v9h8cdcerna5dba3mi03rst.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWYSpP2JDbIEkaGVpSglKruI3vtPWkZEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "401431423872-r0jj32i38v9h8cdcerna5dba3mi03rst.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
