@@ -22,13 +22,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="false">
-        <EditText
-            android:id="@+id/editTextEmail"
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="Email"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:hint="Email"/>
+            app:passwordToggleEnabled="false">
+            <EditText
+                android:id="@+id/editDietitianCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:hint="Dietitian code"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -51,13 +64,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true">
-        <EditText
-            android:id="@+id/editTextPasswordRetype"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:hint="Retype password" />
+            <EditText
+                android:id="@+id/editTextPasswordRetype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:hint="Retype password" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

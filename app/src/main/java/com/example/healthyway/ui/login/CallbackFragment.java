@@ -1,5 +1,5 @@
 package com.example.healthyway.ui.login;
 
 public interface CallbackFragment {
-    void changeFragment();
+    void changeFragment(Integer pageNr);
 }

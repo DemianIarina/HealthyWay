@@ -16,7 +16,7 @@ import com.example.healthyway.R;
 
 public class LoginFragment extends Fragment {
 
-    Button buttonLogin, buttonRegister;
+    Button buttonLogin, buttonRegister, buttonRegisterWithCode;
     EditText editTextEmail, editTextPassword;
     CallbackFragment callbackFragment;
 
@@ -30,6 +30,7 @@ public class LoginFragment extends Fragment {
 
         buttonLogin = view.findViewById(R.id.buttonLogin);
         buttonRegister = view.findViewById(R.id.buttonRegister);
+        buttonRegisterWithCode = view.findViewById(R.id.buttonRegisterWithCode);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,11 +43,19 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(callbackFragment!=null){
-                    callbackFragment.changeFragment();
+                    callbackFragment.changeFragment(1);
                 }
             }
         });
 
+        buttonRegisterWithCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(callbackFragment!=null){
+                    callbackFragment.changeFragment(2);
+                }
+            }
+        });
 
 
         return view;

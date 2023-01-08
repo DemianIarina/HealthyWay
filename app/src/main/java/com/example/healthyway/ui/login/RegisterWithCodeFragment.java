@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.healthyway.Entities.UserEntity;
@@ -26,9 +25,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegisterFragment extends Fragment{
+public class RegisterWithCodeFragment extends Fragment{
     Button buttonRegister;
-    EditText editTextPassword, editTextEmail, editTextPasswordRetype;
+    EditText editTextPassword, editTextEmail, editDietitianCode, editTextPasswordRetype;
     DatabaseReference reference;
     UserEntity user;
 
@@ -37,8 +36,9 @@ public class RegisterFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.register_fragment, container, false);
+        View view = inflater.inflate(R.layout.registerwithcode_fragment, container, false);
         editTextEmail = view.findViewById(R.id.editTextEmail);
+        editDietitianCode = view.findViewById(R.id.editDietitianCode);
         editTextPassword = view.findViewById(R.id.editTextPassword);
         editTextPasswordRetype = view.findViewById(R.id.editTextPasswordRetype);
 
@@ -52,8 +52,6 @@ public class RegisterFragment extends Fragment{
                 if(snapshot.exists()){
                     maxid = snapshot.getChildrenCount();
                 }
-
-
             }
 
             @Override

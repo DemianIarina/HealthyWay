@@ -19,13 +19,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Login" />
-
+            app:passwordToggleEnabled="false">
         <EditText
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
@@ -33,7 +30,12 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Email" />
+        </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
@@ -41,6 +43,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="Password" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/buttonLogin"
@@ -53,6 +56,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Register" />
+
+        <Button
+            android:id="@+id/buttonRegisterWithCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register with code from Dietitian" />
     </LinearLayout>
 
 </LinearLayout>
