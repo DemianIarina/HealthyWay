@@ -2,6 +2,7 @@ package com.example.healthyway.ui.home;
 
 import static android.content.Context.SENSOR_SERVICE;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Sensor;
@@ -12,6 +13,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,18 +23,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.healthyway.databinding.FragmentDashboardBinding;
+import com.example.healthyway.R;
 import com.example.healthyway.databinding.FragmentHomeBinding;
-import com.example.healthyway.ui.dashboard.DashboardViewModel;
 
 public class HomeFragment extends Fragment implements SensorEventListener {
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
 
     private FragmentHomeBinding binding;
     private SensorManager sensorManager;
     private boolean running  = false;
     private Float totalSteps = 0f;
     private Float previousTotalSteps = 0f;
-    //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+    private Float totalKcal = 0f;
+    private EditText inputKcal;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,15 +46,24 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textDashboard;
-//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         sensorManager = (SensorManager) requireContext().getSystemService(SENSOR_SERVICE);
 
 
         loadData();
         resetSteps();
+        addKcal();
 
-                return root;
+        return root;
+    }
+
+    private void addKcal() {
+        final TextView tv_kcal = binding.tvKcal;
+        tv_kcal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAddKcalDialog();
+            }
+        });
     }
 
     @Override
@@ -74,6 +89,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             Integer currentSteps = totalSteps.intValue() - previousTotalSteps.intValue();
 
             tv_stepsTaken.setText(currentSteps.toString());
+
+            final TextView tv_kcal = binding.tvKcal;
+            tv_kcal.setText(totalKcal.toString());
         }
 
     }
@@ -106,13 +124,13 @@ public class HomeFragment extends Fragment implements SensorEventListener {
             public boolean onLongClick(View view) {
                 previousTotalSteps = totalSteps;
                 tv_stepsTaken.setText("0");
-                saveData();
+                saveStepsData();
                 return true;
             }
         });
     }
 
-    private void saveData(){
+    private void saveStepsData(){
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("stepsPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putFloat("key1", previousTotalSteps);
@@ -122,10 +140,54 @@ public class HomeFragment extends Fragment implements SensorEventListener {
     private  void loadData(){
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("stepsPreferences", Context.MODE_PRIVATE);
         previousTotalSteps = sharedPreferences.getFloat("key1", 0f);
+        SharedPreferences sharedPreferences2 = getContext().getSharedPreferences("kcalPreferences", Context.MODE_PRIVATE);
+        totalKcal = sharedPreferences2.getFloat("kcal", 0f);
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    public void createAddKcalDialog(){
+        dialogBuilder = new AlertDialog.Builder(this.requireContext());
+        final View addKcalPopupView = getLayoutInflater().inflate(R.layout.fragment_addkcal, null);
+
+        inputKcal = (EditText) addKcalPopupView.findViewById(R.id.inputKcal);
+        loadData();
+
+        Button button = (Button) addKcalPopupView.findViewById(R.id.submit_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Float kcalNr = Float.parseFloat(String.valueOf(inputKcal.getText()));
+                    totalKcal = totalKcal + kcalNr;
+                    saveKcalData();
+                    Toast.makeText(getActivity(), "Kcal added", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    final TextView tv_kcal = binding.tvKcal;
+                    tv_kcal.setText(totalKcal.toString());
+                } catch (NumberFormatException nfe) {
+                    Toast.makeText(getActivity(), "The value must be numeric", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialogBuilder.setView(addKcalPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        dialog.getWindow().setAttributes(layoutParams);
+    }
+
+    private void saveKcalData(){
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("kcalPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("kcal", totalKcal);
+        editor.apply();
     }
 }
